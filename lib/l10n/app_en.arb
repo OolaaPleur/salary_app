@@ -1,0 +1,17 @@
+{
+  "chooseDate": "Choose date",
+  "hoursTotal": "Total hours",
+  "ruggedTreadCount": "Rugged Tread Count",
+  "nonRuggedTreadCount": "Non Rugged Tread Count",
+  "patchCount": "Patch Count",
+  "sideRepairCentimeterCount": "Side Repair Centimeter Count",
+  "packedTread": "Packed tread Count",
+  "treadAndLayerCount": "Tread And Layer Count",
+  "treadAndNonLayerCount": "Tread And Non-Layer Count",
+  "hourCount": "Hour Count",
+  "cutTreadCount": "Cut Tread Count",
+
+  "addData": "Add data",
+  "table": "Table",
+  "yearTable": "Year table"
+}

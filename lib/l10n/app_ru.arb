@@ -1,0 +1,17 @@
+{
+  "chooseDate": "Выбрать дату",
+  "hoursTotal": "Всего часов",
+  "ruggedTreadCount": "Кол-во шерохованных протекторов",
+  "nonRuggedTreadCount": "Кол-во нешерохованных протекторов",
+  "patchCount": "Число заплаток",
+  "sideRepairCentimeterCount": "Борты",
+  "packedTread": "Пакованные протекторы",
+  "treadAndLayerCount": "Протектор+прослойка",
+  "treadAndNonLayerCount": "Протектор без прослойки",
+  "hourCount": "Часовая сдельная",
+  "cutTreadCount": "Кол-во резанных протекторов",
+
+  "addData": "Ввести данные",
+  "table": "Таблица",
+  "yearTable": "Годовая таблица"
+}
