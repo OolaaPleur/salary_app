@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:intl/intl.dart';
@@ -33,14 +35,14 @@ class _AddDataScreenState extends State<AddDataScreen> {
     if (dateTime == null) {
       DateTime dateTimeNow = DateTime.now();
       EntrySheet entrySheet = new EntrySheet(
-          dateTime: DateFormat('dd.MM.yyyy').format(dateTimeNow).toString());
+          dateTime: dateTimeNow);
       cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTimeNow.day + 1);
       print('${dateTimeNow.day} stuck in loop');
       print(cellForCurrentDay.elementAt(2).value);
       return;
     }
     EntrySheet entrySheet = new EntrySheet(
-        dateTime: DateFormat('dd.MM.yyyy').format(dateTime).toString());
+        dateTime: dateTime);
     cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTime.day + 1);
     print('${dateTime.day} stuck in loop');
     print(cellForCurrentDay.elementAt(2).value);
@@ -67,7 +69,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
       dateTime = DateTime.now();
     }
     EntrySheet entrySheet = new EntrySheet(
-      dateTime: DateFormat('dd.MM.yyyy').format(dateTime).toString(),
+      dateTime: dateTime,
       hoursTotal:
           hoursTotal == '' ? 0 : double.parse(hoursTotal.replaceAll(',', '.')),
       ruggedTreadCount:

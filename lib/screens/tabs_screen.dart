@@ -25,7 +25,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> _pages = [
-      {'page': AddDataScreen(), 'title': '${AppLocalizations.of(context)!.addData} (Октябрь 2021)'},
+      {'page': AddDataScreen(), 'title': AppLocalizations.of(context)!.addData},
       {'page': ShowTableScreen(), 'title': AppLocalizations.of(context)!.table},
       {'page': ShowYearTableScreen(), 'title': AppLocalizations.of(context)!.yearTable},
     ];

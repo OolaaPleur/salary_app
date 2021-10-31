@@ -10,7 +10,7 @@ class ShowTableScreen extends StatefulWidget {
 }
 
 class _ShowTableScreenState extends State<ShowTableScreen> {
-  static String imageUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=978992625&format=image';
+  static String imageUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=2124533607&format=image';
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
