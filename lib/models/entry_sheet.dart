@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:http/http.dart';
-import 'package:salary_app/screens/add_data_screen.dart';
 
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EntrySheet {
   final double hoursTotal;
@@ -33,9 +32,10 @@ class EntrySheet {
       this.cutTreadCount = 0});
 
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
-    final gsheets = GSheets(_credentials);
-    final ss = await gsheets.spreadsheet(_spreadsheetId);
-    var sheet = ss.worksheetByTitle('Октябрь 2021');
+    await dotenv.load(fileName: ".env");
+    final gsheets = GSheets(dotenv.env['_CREDENTIALS']);
+    final ss = await gsheets.spreadsheet(dotenv.env['_spreadsheetId'].toString());
+    var sheet = ss.worksheetByTitle('Ноябрь 2021');
     //print(dateTime);
     var cell = await sheet!.cells.findByValue(dateTime).then((value) => value
         .toString()
@@ -67,7 +67,7 @@ class EntrySheet {
         column: 12, row: int.parse(digit));
     await sheet.values.insertValue(cutTreadCount.toString(),
         column: 13, row: int.parse(digit));
-    final url = Uri.parse('https://docs.google.com/spreadsheets/d/1WyykcwK1iTrqwuXKJtUYs1KqIwznJDC3tmnqh3ftmc8/edit#gid=203697693');
+    final url = Uri.parse('https://docs.google.com/spreadsheets/d/1WyykcwK1iTrqwuXKJtUYs1KqIwznJDC3tmnqh3ftmc8/edit#gid=2131798385');
     final response = await get(url);
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -75,9 +75,9 @@ class EntrySheet {
     }
   }
   Future<List<Cell>> fetchWorkSheet(int row) async {
-    final gsheets = GSheets(_credentials);
-    final ss = await gsheets.spreadsheet(_spreadsheetId);
-    var sheet = ss.worksheetByTitle('Октябрь 2021');
+    final gsheets = GSheets(dotenv.env['_CREDENTIALS']);
+    final ss = await gsheets.spreadsheet(dotenv.env['_spreadsheetId'].toString());
+    var sheet = ss.worksheetByTitle('Ноябрь 2021');
     final cellsRow = await sheet!.cells.row(row);
     return cellsRow;
   }
