@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:intl/intl.dart';
@@ -34,15 +32,13 @@ class _AddDataScreenState extends State<AddDataScreen> {
   Future<void> _fetchWork() async {
     if (dateTime == null) {
       DateTime dateTimeNow = DateTime.now();
-      EntrySheet entrySheet = new EntrySheet(
-          dateTime: dateTimeNow);
+      EntrySheet entrySheet = new EntrySheet(dateTime: dateTimeNow);
       cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTimeNow.day + 1);
       print('${dateTimeNow.day} stuck in loop');
       print(cellForCurrentDay.elementAt(2).value);
       return;
     }
-    EntrySheet entrySheet = new EntrySheet(
-        dateTime: dateTime);
+    EntrySheet entrySheet = new EntrySheet(dateTime: dateTime);
     cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTime.day + 1);
     print('${dateTime.day} stuck in loop');
     print(cellForCurrentDay.elementAt(2).value);
@@ -70,24 +66,16 @@ class _AddDataScreenState extends State<AddDataScreen> {
     }
     EntrySheet entrySheet = new EntrySheet(
       dateTime: dateTime,
-      hoursTotal:
-          hoursTotal == '' ? 0 : double.parse(hoursTotal.replaceAll(',', '.')),
-      ruggedTreadCount:
-          ruggedTreadCount == '' ? 0 : int.parse(ruggedTreadCount),
-      nonRuggedTreadCount:
-          nonRuggedTreadCount == '' ? 0 : int.parse(nonRuggedTreadCount),
-      patchCount: patchCount == '' ? 0 : int.parse(patchCount),
-      sideRepairCentimeterCount: sideRepairCentimeterCount == ''
-          ? 0
-          : int.parse(sideRepairCentimeterCount),
-      packedTread: packedTread == '' ? 0 : int.parse(packedTread),
-      treadAndLayerCount:
-          treadAndLayerCount == '' ? 0 : int.parse(treadAndLayerCount),
-      treadAndNonLayerCount:
-          treadAndNonLayerCount == '' ? 0 : int.parse(treadAndNonLayerCount),
-      hourCount:
-          hourCount == '' ? 0 : double.parse(hourCount.replaceAll(',', '.')),
-      cutTreadCount: cutTreadCount == '' ? 0 : int.parse(cutTreadCount),
+      hoursTotal: hoursTotal,
+      ruggedTreadCount: ruggedTreadCount,
+      nonRuggedTreadCount: nonRuggedTreadCount,
+      patchCount: patchCount,
+      sideRepairCentimeterCount: sideRepairCentimeterCount,
+      packedTread: packedTread,
+      treadAndLayerCount: treadAndLayerCount,
+      treadAndNonLayerCount: treadAndNonLayerCount,
+      hourCount: hourCount,
+      cutTreadCount: cutTreadCount,
     );
     print(ruggedTreadCount);
     try {
@@ -146,7 +134,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               children: [
                                 TextButton(
                                   onPressed: _presentDatePicker,
-                                  child: Text(AppLocalizations.of(context)!.chooseDate),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.chooseDate),
                                 ),
                                 if (dateTime != null)
                                   Text(DateFormat('dd.MM.yyyy')
@@ -161,9 +150,13 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
-                                  : cellForCurrentDay.elementAt(2).value.replaceAll('.', ','),
-                              decoration:
-                                  InputDecoration(labelText: AppLocalizations.of(context)!.hoursTotal),
+                                  : cellForCurrentDay
+                                      .elementAt(2)
+                                      .value
+                                      .replaceAll('.', ','),
+                              decoration: InputDecoration(filled: true, fillColor: Colors.lightGreen,
+                                  labelText:
+                                      AppLocalizations.of(context)!.hoursTotal),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => hoursTotal = value,
                               keyboardType: TextInputType.number,
@@ -171,9 +164,21 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
+                                  : cellForCurrentDay.elementAt(10).value,
+                              decoration: InputDecoration(filled: true, fillColor: Colors.lightGreen,
+                                  labelText: AppLocalizations.of(context)!
+                                      .treadAndNonLayerCount),
+                              textInputAction: TextInputAction.next,
+                              onSaved: (value) => treadAndNonLayerCount = value,
+                              keyboardType: TextInputType.number,
+                            ),
+                            TextFormField(
+                              initialValue: cellForCurrentDay.isEmpty
+                                  ? ''
                                   : cellForCurrentDay.elementAt(4).value,
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.ruggedTreadCount),
+                                  labelText: AppLocalizations.of(context)!
+                                      .ruggedTreadCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => ruggedTreadCount = value,
                               keyboardType: TextInputType.number,
@@ -183,7 +188,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                   ? ''
                                   : cellForCurrentDay.elementAt(5).value,
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.nonRuggedTreadCount),
+                                  labelText: AppLocalizations.of(context)!
+                                      .nonRuggedTreadCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => nonRuggedTreadCount = value,
                               keyboardType: TextInputType.number,
@@ -192,8 +198,9 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
                                   : cellForCurrentDay.elementAt(6).value,
-                              decoration:
-                                  InputDecoration(labelText: AppLocalizations.of(context)!.patchCount),
+                              decoration: InputDecoration(
+                                  labelText:
+                                      AppLocalizations.of(context)!.patchCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => patchCount = value,
                               keyboardType: TextInputType.number,
@@ -203,7 +210,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                   ? ''
                                   : cellForCurrentDay.elementAt(7).value,
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.sideRepairCentimeterCount),
+                                  labelText: AppLocalizations.of(context)!
+                                      .sideRepairCentimeterCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) =>
                                   sideRepairCentimeterCount = value,
@@ -214,7 +222,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                   ? ''
                                   : cellForCurrentDay.elementAt(8).value,
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.packedTread),
+                                  labelText: AppLocalizations.of(context)!
+                                      .packedTread),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => packedTread = value,
                               keyboardType: TextInputType.number,
@@ -224,7 +233,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                   ? ''
                                   : cellForCurrentDay.elementAt(9).value,
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.treadAndLayerCount),
+                                  labelText: AppLocalizations.of(context)!
+                                      .treadAndLayerCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => treadAndLayerCount = value,
                               keyboardType: TextInputType.number,
@@ -232,19 +242,13 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
-                                  : cellForCurrentDay.elementAt(10).value,
+                                  : cellForCurrentDay
+                                      .elementAt(11)
+                                      .value
+                                      .replaceAll('.', ','),
                               decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.treadAndNonLayerCount),
-                              textInputAction: TextInputAction.next,
-                              onSaved: (value) => treadAndNonLayerCount = value,
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              initialValue: cellForCurrentDay.isEmpty
-                                  ? ''
-                                  : cellForCurrentDay.elementAt(11).value.replaceAll('.', ','),
-                              decoration:
-                                  InputDecoration(labelText: AppLocalizations.of(context)!.hourCount),
+                                  labelText:
+                                      AppLocalizations.of(context)!.hourCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => hourCount = value,
                               keyboardType: TextInputType.number,
@@ -253,8 +257,9 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
                                   : cellForCurrentDay.elementAt(12).value,
-                              decoration:
-                                  InputDecoration(labelText: AppLocalizations.of(context)!.cutTreadCount),
+                              decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!
+                                      .cutTreadCount),
                               textInputAction: TextInputAction.none,
                               onSaved: (value) => cutTreadCount = value,
                               keyboardType: TextInputType.number,

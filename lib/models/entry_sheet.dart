@@ -3,30 +3,31 @@ import 'package:gsheets/gsheets.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:intl/intl.dart';
 
+
 class EntrySheet {
-  final double hoursTotal;
-  final int ruggedTreadCount;
-  final int nonRuggedTreadCount;
-  final int patchCount;
-  final int sideRepairCentimeterCount;
-  final int packedTread;
-  final int treadAndLayerCount;
-  final int treadAndNonLayerCount;
-  final double hourCount;
-  final int cutTreadCount;
+  final String hoursTotal;
+  final String ruggedTreadCount;
+  final String nonRuggedTreadCount;
+  final String patchCount;
+  final String sideRepairCentimeterCount;
+  final String packedTread;
+  final String treadAndLayerCount;
+  final String treadAndNonLayerCount;
+  final String hourCount;
+  final String cutTreadCount;
   final DateTime dateTime;
 
   EntrySheet({required this.dateTime,
-    this.hoursTotal = 0,
-    this.ruggedTreadCount = 0,
-    this.nonRuggedTreadCount = 0,
-    this.patchCount = 0,
-    this.sideRepairCentimeterCount = 0,
-    this.packedTread = 0,
-    this.treadAndLayerCount = 0,
-    this.treadAndNonLayerCount = 0,
-    this.hourCount = 0,
-    this.cutTreadCount = 0});
+    this.hoursTotal = '',
+    this.ruggedTreadCount = '',
+    this.nonRuggedTreadCount = '',
+    this.patchCount = '',
+    this.sideRepairCentimeterCount = '',
+    this.packedTread = '',
+    this.treadAndLayerCount = '',
+    this.treadAndNonLayerCount = '',
+    this.hourCount = '',
+    this.cutTreadCount = ''});
 
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
     final gsheets = GSheets(CREDENTIALS);
@@ -59,17 +60,17 @@ class EntrySheet {
     print(digit);
 
     final data = [
-      hoursTotal.toString().replaceAll('.', ','),
-      0,
-      ruggedTreadCount.toString(),
-      nonRuggedTreadCount.toString(),
-      patchCount.toString(),
-      sideRepairCentimeterCount.toString(),
-      packedTread.toString(),
-      treadAndLayerCount.toString(),
-      treadAndNonLayerCount.toString(),
-      hourCount.toString().replaceAll('.', ','),
-      cutTreadCount.toString(),
+      hoursTotal.replaceAll('.', ','),
+      '',
+      ruggedTreadCount,
+      nonRuggedTreadCount,
+      patchCount,
+      sideRepairCentimeterCount,
+      packedTread,
+      treadAndLayerCount,
+      treadAndNonLayerCount,
+      hourCount.replaceAll('.', ','),
+      cutTreadCount,
     ];
     await sheet.values.insertRow(int.parse(digit), data, fromColumn: 3).then((value) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
