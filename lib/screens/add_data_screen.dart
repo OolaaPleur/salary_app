@@ -28,20 +28,24 @@ class _AddDataScreenState extends State<AddDataScreen> {
   var hourCount;
   var cutTreadCount;
   List<Cell> cellForCurrentDay = [];
+  List<Cell> cellForSalary = [];
 
   Future<void> _fetchWork() async {
     if (dateTime == null) {
       DateTime dateTimeNow = DateTime.now();
       EntrySheet entrySheet = new EntrySheet(dateTime: dateTimeNow);
       cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTimeNow.day + 1);
+      cellForSalary = await entrySheet.fetchSalary();
       print('${dateTimeNow.day} stuck in loop');
       print(cellForCurrentDay.elementAt(2).value);
       return;
     }
     EntrySheet entrySheet = new EntrySheet(dateTime: dateTime);
     cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTime.day + 1);
+    cellForSalary = await entrySheet.fetchSalary();
     print('${dateTime.day} stuck in loop');
     print(cellForCurrentDay.elementAt(2).value);
+    print(cellForCurrentDay.elementAt(31).value);
   }
 
   Future<void> _saveForm() async {
@@ -121,7 +125,10 @@ class _AddDataScreenState extends State<AddDataScreen> {
                   child: CircularProgressIndicator(),
                 )
               : RefreshIndicator(
-                  onRefresh: () => _fetchWork(),
+                  onRefresh: () async {
+                    _fetchWork();
+                    setState(() {});
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: SingleChildScrollView(
@@ -147,6 +154,22 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                       .toString()),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                cellForCurrentDay.elementAt(21).value == '0'
+                                    ? SizedBox.shrink()
+                                    : Text("€" +
+                                        cellForCurrentDay.elementAt(21).value +
+                                        ' - выработка за день'),
+                                cellForCurrentDay.elementAt(31).value ==
+                                        '#DIV/0! (Function DIVIDE parameter 2 cannot be zero.)'
+                                    ? SizedBox.shrink()
+                                    : Text("€" +
+                                        cellForCurrentDay.elementAt(31).value +
+                                        ' в час')
+                              ],
+                            ),
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
                                   ? ''
@@ -154,23 +177,43 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                       .elementAt(2)
                                       .value
                                       .replaceAll('.', ','),
-                              decoration: InputDecoration(filled: true, fillColor: Colors.lightGreen,
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.lightGreen,
                                   labelText:
                                       AppLocalizations.of(context)!.hoursTotal),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => hoursTotal = value,
                               keyboardType: TextInputType.number,
                             ),
-                            TextFormField(
-                              initialValue: cellForCurrentDay.isEmpty
-                                  ? ''
-                                  : cellForCurrentDay.elementAt(10).value,
-                              decoration: InputDecoration(filled: true, fillColor: Colors.lightGreen,
-                                  labelText: AppLocalizations.of(context)!
-                                      .treadAndNonLayerCount),
-                              textInputAction: TextInputAction.next,
-                              onSaved: (value) => treadAndNonLayerCount = value,
-                              keyboardType: TextInputType.number,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    initialValue: cellForCurrentDay.isEmpty
+                                        ? ''
+                                        : cellForCurrentDay.elementAt(10).value,
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.lightGreen,
+                                        labelText: AppLocalizations.of(context)!
+                                            .treadAndNonLayerCount),
+                                    textInputAction: TextInputAction.next,
+                                    onSaved: (value) =>
+                                        treadAndNonLayerCount = value,
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ),
+                                cellForCurrentDay.elementAt(29).value == '0'
+                                    ? SizedBox.shrink()
+                                    : Container(
+                                        child: Text("   €" +
+                                            cellForCurrentDay
+                                                .elementAt(29)
+                                                .value),
+                                      )
+                              ],
                             ),
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
@@ -264,6 +307,30 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               onSaved: (value) => cutTreadCount = value,
                               keyboardType: TextInputType.number,
                             ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              alignment: Alignment.topLeft,
+                              child: Text("Зарплата брутто(часовая): " +
+                                  double.parse(cellForSalary.elementAt(0).value).toStringAsFixed(2).replaceAll('.', ',')),
+                            ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            alignment: Alignment.topLeft,
+                            child: Text("Зарплата нетто(часовая): " +
+                                double.parse(cellForSalary.elementAt(1).value).toStringAsFixed(2).replaceAll('.', ',')),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            alignment: Alignment.topLeft,
+                            child: Text("Зарплата брутто(сдельная): " +
+                                double.parse(cellForSalary.elementAt(2).value).toStringAsFixed(2).replaceAll('.', ',')),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            alignment: Alignment.topLeft,
+                            child: Text("Зарплата нетто(сдельная): " +
+                                double.parse(cellForSalary.elementAt(3).value).toStringAsFixed(2).replaceAll('.', ',')),
+                          ),
                           ],
                         ),
                       ),

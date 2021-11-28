@@ -18,43 +18,38 @@ class EntrySheet {
   final String cutTreadCount;
   final DateTime dateTime;
 
-  EntrySheet({required this.dateTime,
-    this.hoursTotal = '',
-    this.ruggedTreadCount = '',
-    this.nonRuggedTreadCount = '',
-    this.patchCount = '',
-    this.sideRepairCentimeterCount = '',
-    this.packedTread = '',
-    this.treadAndLayerCount = '',
-    this.treadAndNonLayerCount = '',
-    this.hourCount = '',
-    this.cutTreadCount = ''});
+  EntrySheet(
+      {required this.dateTime,
+      this.hoursTotal = '',
+      this.ruggedTreadCount = '',
+      this.nonRuggedTreadCount = '',
+      this.patchCount = '',
+      this.sideRepairCentimeterCount = '',
+      this.packedTread = '',
+      this.treadAndLayerCount = '',
+      this.treadAndNonLayerCount = '',
+      this.hourCount = '',
+      this.cutTreadCount = ''});
 
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
     final gsheets = GSheets(CREDENTIALS);
-    final ss = await gsheets
-        .spreadsheet(spreadsheetID);
+    final ss = await gsheets.spreadsheet(spreadsheetID);
 
     DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
     var month = dateFormatMonth
         .format(dateTime); //get month to pick sheet which is needed
     var monthCapitalized =
-    month.capitalize(); //make month name start from capital letter
+        month.capitalize(); //make month name start from capital letter
     DateFormat dateFormatYear = new DateFormat.y('ru');
     var year = dateFormatYear
         .format(dateTime); //get year to pick sheet which is needed
     var sheet = ss.worksheetByTitle('$monthCapitalized $year');
     String str = DateFormat('dd.MM.yyyy').format(dateTime).toString();
-    var cell = await sheet!.cells.findByValue(str).then((value) =>
-        value
-            .toString()
-            .split('at ')
-            .last
-            .substring(0, value
-            .toString()
-            .split('at ')
-            .last
-            .length - 1));
+    var cell = await sheet!.cells.findByValue(str).then((value) => value
+        .toString()
+        .split('at ')
+        .last
+        .substring(0, value.toString().split('at ').last.length - 1));
     var letter = cell.substring(0, cell.length - 2);
     print(letter);
     var digit = cell.substring(1);
@@ -73,13 +68,15 @@ class EntrySheet {
       hourCount.replaceAll('.', ','),
       cutTreadCount,
     ];
-    await sheet.values.insertRow(int.parse(digit), data, fromColumn: 3).then((value) {
+    await sheet.values
+        .insertRow(int.parse(digit), data, fromColumn: 3)
+        .then((value) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Added successfully!',
-            textAlign: TextAlign.center,
-          )));
+        'Added successfully!',
+        textAlign: TextAlign.center,
+      )));
     });
   }
 
@@ -91,12 +88,40 @@ class EntrySheet {
     var month = dateFormatMonth
         .format(dateTime); //get month to pick sheet which is needed
     var monthCapitalized =
-    month.capitalize(); //make month name start from capital letter
+        month.capitalize(); //make month name start from capital letter
     DateFormat dateFormatYear = new DateFormat.y('ru');
     var year = dateFormatYear
         .format(dateTime); //get year to pick sheet which is needed
     var sheet = ss.worksheetByTitle('$monthCapitalized $year');
     final cellsRow = await sheet!.cells.row(row);
     return cellsRow;
+  }
+
+  Future<List<Cell>> fetchSalary() async {
+    final gsheets = GSheets(CREDENTIALS);
+    final ss = await gsheets.spreadsheet(spreadsheetID);
+
+    DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
+    var month = dateFormatMonth
+        .format(dateTime); //get month to pick sheet which is needed
+    var monthCapitalized =
+        month.capitalize(); //make month name start from capital letter
+    DateFormat dateFormatYear = new DateFormat.y('ru');
+    var year = dateFormatYear
+        .format(dateTime); //get year to pick sheet which is needed
+    var sheet = ss.worksheetByTitle('$monthCapitalized $year');
+
+    final bruttoHourlySalary = await sheet!.cells.cell(column: 3, row: 35);
+    final nettoHourlySalary = await sheet.cells.cell(column: 3, row: 37);
+    final bruttoPieceSalary = await sheet.cells.cell(column: 5, row: 36);
+    final nettoPieceSalary = await sheet.cells.cell(column: 5, row: 37);
+
+    List<Cell> salaryData = [
+      bruttoHourlySalary,
+      nettoHourlySalary,
+      bruttoPieceSalary,
+      nettoPieceSalary
+    ];
+    return salaryData;
   }
 }

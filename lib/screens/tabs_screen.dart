@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'add_data_screen.dart';
+import 'show_hourly_pay_month_table_screen.dart';
 import 'show_table_screen.dart';
 import 'show_year_table_screen.dart';
 
@@ -28,6 +29,7 @@ class _TabsScreenState extends State<TabsScreen> {
       {'page': AddDataScreen(), 'title': AppLocalizations.of(context)!.addData},
       {'page': ShowTableScreen(), 'title': AppLocalizations.of(context)!.table},
       {'page': ShowYearTableScreen(), 'title': AppLocalizations.of(context)!.yearTable},
+      {'page': ShowHourlyPayMonthTableScreen(), 'title': AppLocalizations.of(context)!.hourlyPayMonthTable},
     ];
     return Scaffold(
       appBar: AppBar(
@@ -54,6 +56,10 @@ class _TabsScreenState extends State<TabsScreen> {
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(Icons.backup_table),
               label: AppLocalizations.of(context)!.yearTable),
+          BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(Icons.calendar_view_month),
+              label: AppLocalizations.of(context)!.hourlyPayMonthTable),
         ],
       ),
     );

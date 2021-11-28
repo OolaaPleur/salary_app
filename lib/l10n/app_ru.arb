@@ -11,7 +11,8 @@
   "hourCount": "Часовая сдельная",
   "cutTreadCount": "Кол-во резанных протекторов",
 
-  "addData": "Ввести данные",
+  "addData": "Ввести",
   "table": "Таблица",
-  "yearTable": "Годовая таблица"
+  "yearTable": "Годовая",
+  "hourlyPayMonthTable" : "Часовая"
 }

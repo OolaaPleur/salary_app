@@ -13,5 +13,6 @@
 
   "addData": "Add data",
   "table": "Table",
-  "yearTable": "Year table"
+  "yearTable": "Year table",
+  "hourlyPayMonthTable" : "Hourly pay table"
 }

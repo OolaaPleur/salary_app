@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ShowYearTableScreen extends StatefulWidget {
-  static const routeName = '/show-table-screen';
-
   const ShowYearTableScreen({Key? key}) : super(key: key);
 
   @override
