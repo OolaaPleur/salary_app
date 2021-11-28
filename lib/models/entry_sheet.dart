@@ -3,6 +3,7 @@ import 'package:gsheets/gsheets.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:intl/intl.dart';
 
+import 'secret.dart';
 
 class EntrySheet {
   final String hoursTotal;

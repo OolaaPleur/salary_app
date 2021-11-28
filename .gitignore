@@ -47,3 +47,4 @@ app.*.map.json
 
 # Ignored
 *.env
+lib/models/secret.dart
