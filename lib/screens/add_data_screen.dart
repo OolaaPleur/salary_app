@@ -56,15 +56,11 @@ class _AddDataScreenState extends State<AddDataScreen> {
       ),
       duration: Duration(seconds: 10),
     ));
-    //print(_isLoading.toString());
     final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
     _form.currentState!.save();
-    //print(dateTime.toString());
-    //print(ruggedTreadCount);
-
     if (dateTime == null) {
       dateTime = DateTime.now();
     }
@@ -96,7 +92,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
       context: context,
       firstDate: DateTime(2016),
       initialDate: DateTime.now(),
-      lastDate: DateTime(2023),
+      lastDate: DateTime(2025),
       locale: const Locale('en', 'GB'),
     ).then((value) {
       if (value == null) {

@@ -8,7 +8,7 @@ class ShowYearTableScreen extends StatefulWidget {
 }
 
 class _ShowYearTableScreenState extends State<ShowYearTableScreen> {
-  static String imageUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=6171734&format=image';
+  static String imageUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=6171734&format=image&';
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -17,7 +17,7 @@ class _ShowYearTableScreenState extends State<ShowYearTableScreen> {
         height: MediaQuery.of(context).size.height,
         child: InkWell(
             onTap: () {setState(() {
-              imageUrl='https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=6171734&format=image&${DateTime.now().microsecondsSinceEpoch}';
+              imageUrl=imageUrl+DateTime.now().microsecondsSinceEpoch.toString();
             });},
             child:
             Transform.rotate(

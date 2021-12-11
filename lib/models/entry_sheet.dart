@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:gsheets/gsheets.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:intl/intl.dart';
@@ -32,18 +33,7 @@ class EntrySheet {
       this.cutTreadCount = ''});
 
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
-    final gsheets = GSheets(CREDENTIALS);
-    final ss = await gsheets.spreadsheet(spreadsheetID);
-
-    DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
-    var month = dateFormatMonth
-        .format(dateTime); //get month to pick sheet which is needed
-    var monthCapitalized =
-        month.capitalize(); //make month name start from capital letter
-    DateFormat dateFormatYear = new DateFormat.y('ru');
-    var year = dateFormatYear
-        .format(dateTime); //get year to pick sheet which is needed
-    var sheet = ss.worksheetByTitle('$monthCapitalized $year');
+    Worksheet? sheet = await getSheetName();
     String str = DateFormat('dd.MM.yyyy').format(dateTime).toString();
     var cell = await sheet!.cells.findByValue(str).then((value) => value
         .toString()
@@ -81,35 +71,13 @@ class EntrySheet {
   }
 
   Future<List<Cell>> fetchWorkSheet(int row) async {
-    final gsheets = GSheets(CREDENTIALS);
-    final ss = await gsheets.spreadsheet(spreadsheetID);
-
-    DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
-    var month = dateFormatMonth
-        .format(dateTime); //get month to pick sheet which is needed
-    var monthCapitalized =
-        month.capitalize(); //make month name start from capital letter
-    DateFormat dateFormatYear = new DateFormat.y('ru');
-    var year = dateFormatYear
-        .format(dateTime); //get year to pick sheet which is needed
-    var sheet = ss.worksheetByTitle('$monthCapitalized $year');
+    Worksheet? sheet = await getSheetName();
     final cellsRow = await sheet!.cells.row(row);
     return cellsRow;
   }
 
   Future<List<Cell>> fetchSalary() async {
-    final gsheets = GSheets(CREDENTIALS);
-    final ss = await gsheets.spreadsheet(spreadsheetID);
-
-    DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
-    var month = dateFormatMonth
-        .format(dateTime); //get month to pick sheet which is needed
-    var monthCapitalized =
-        month.capitalize(); //make month name start from capital letter
-    DateFormat dateFormatYear = new DateFormat.y('ru');
-    var year = dateFormatYear
-        .format(dateTime); //get year to pick sheet which is needed
-    var sheet = ss.worksheetByTitle('$monthCapitalized $year');
+    Worksheet? sheet = await getSheetName();
 
     final bruttoHourlySalary = await sheet!.cells.cell(column: 3, row: 35);
     final nettoHourlySalary = await sheet.cells.cell(column: 3, row: 37);
@@ -123,5 +91,21 @@ class EntrySheet {
       nettoPieceSalary
     ];
     return salaryData;
+  }
+
+  Future<Worksheet?> getSheetName() async {
+    final gsheets = GSheets(CREDENTIALS);
+    final ss = await gsheets.spreadsheet(spreadsheetID);
+
+    DateFormat dateFormatMonth = new DateFormat.LLLL('ru');
+    var month = dateFormatMonth
+        .format(dateTime); //get month to pick sheet which is needed
+    var monthCapitalized =
+        month.capitalize(); //make month name start from capital letter
+    DateFormat dateFormatYear = new DateFormat.y('ru');
+    var year = dateFormatYear
+        .format(dateTime); //get year to pick sheet which is needed
+    var sheet = ss.worksheetByTitle('$monthCapitalized $year');
+    return sheet;
   }
 }
