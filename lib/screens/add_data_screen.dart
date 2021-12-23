@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:gsheets/gsheets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -153,16 +154,38 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                cellForCurrentDay.elementAt(21).value == '0'
+                                cellForCurrentDay.elementAt(21).value == '0' ||
+                                        cellForCurrentDay
+                                            .elementAt(21)
+                                            .value
+                                            .isEmpty
                                     ? SizedBox.shrink()
+                                // next - parse to double value at
+                                // cellForCurrentDay list, then leave 2 digits
+                                // after dot, make string and replace dot with
+                                // comma
                                     : Text("€" +
-                                        cellForCurrentDay.elementAt(21).value +
+                                        NumberFormat()
+                                            .parse(cellForCurrentDay
+                                                .elementAt(21)
+                                                .value)
+                                            .toStringAsFixed(2)
+                                            .replaceAll('.', ',') +
                                         ' - выработка за день'),
                                 cellForCurrentDay.elementAt(31).value ==
                                         '#DIV/0! (Function DIVIDE parameter 2 cannot be zero.)'
                                     ? SizedBox.shrink()
+                                // next - parse to double value at
+                                // cellForCurrentDay list, then leave 2 digits
+                                // after dot, make string and replace dot with
+                                // comma
                                     : Text("€" +
-                                        cellForCurrentDay.elementAt(31).value +
+                                        NumberFormat()
+                                            .parse(cellForCurrentDay
+                                                .elementAt(31)
+                                                .value)
+                                            .toStringAsFixed(2)
+                                            .replaceAll('.', ',') +
                                         ' в час')
                               ],
                             ),
@@ -242,7 +265,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                       AppLocalizations.of(context)!.patchCount),
                               textInputAction: TextInputAction.next,
                               onSaved: (value) => patchCount = value,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                             ),
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
@@ -254,7 +277,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               textInputAction: TextInputAction.next,
                               onSaved: (value) =>
                                   sideRepairCentimeterCount = value,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                             ),
                             TextFormField(
                               initialValue: cellForCurrentDay.isEmpty
@@ -307,26 +330,34 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               padding: EdgeInsets.all(8),
                               alignment: Alignment.topLeft,
                               child: Text("Зарплата брутто(часовая): " +
-                                  double.parse(cellForSalary.elementAt(0).value).toStringAsFixed(2).replaceAll('.', ',')),
+                                  double.parse(cellForSalary.elementAt(0).value)
+                                      .toStringAsFixed(2)
+                                      .replaceAll('.', ',')),
                             ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            alignment: Alignment.topLeft,
-                            child: Text("Зарплата нетто(часовая): " +
-                                double.parse(cellForSalary.elementAt(1).value).toStringAsFixed(2).replaceAll('.', ',')),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            alignment: Alignment.topLeft,
-                            child: Text("Зарплата брутто(сдельная): " +
-                                double.parse(cellForSalary.elementAt(2).value).toStringAsFixed(2).replaceAll('.', ',')),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            alignment: Alignment.topLeft,
-                            child: Text("Зарплата нетто(сдельная): " +
-                                double.parse(cellForSalary.elementAt(3).value).toStringAsFixed(2).replaceAll('.', ',')),
-                          ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              alignment: Alignment.topLeft,
+                              child: Text("Зарплата нетто(часовая): " +
+                                  double.parse(cellForSalary.elementAt(1).value)
+                                      .toStringAsFixed(2)
+                                      .replaceAll('.', ',')),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              alignment: Alignment.topLeft,
+                              child: Text("Зарплата брутто(сдельная): " +
+                                  double.parse(cellForSalary.elementAt(2).value)
+                                      .toStringAsFixed(2)
+                                      .replaceAll('.', ',')),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              alignment: Alignment.topLeft,
+                              child: Text("Зарплата нетто(сдельная): " +
+                                  double.parse(cellForSalary.elementAt(3).value)
+                                      .toStringAsFixed(2)
+                                      .replaceAll('.', ',')),
+                            ),
                           ],
                         ),
                       ),
