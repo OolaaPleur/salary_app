@@ -35,11 +35,14 @@ class EntrySheet {
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
     Worksheet? sheet = await getSheetName();
     String str = DateFormat('dd.MM.yyyy').format(dateTime).toString();
+    var g = await sheet!.cells.findByValue(str);
+    print(g);
     var cell = await sheet!.cells.findByValue(str).then((value) => value
         .toString()
         .split('at ')
         .last
         .substring(0, value.toString().split('at ').last.length - 1));
+    print(cell + 'fffffffffff');
     var letter = cell.substring(0, cell.length - 2);
     print(letter);
     var digit = cell.substring(1);
@@ -105,6 +108,7 @@ class EntrySheet {
     DateFormat dateFormatYear = new DateFormat.y('ru');
     var year = dateFormatYear
         .format(dateTime); //get year to pick sheet which is needed
+    print('$monthCapitalized $year');
     var sheet = ss.worksheetByTitle('$monthCapitalized $year');
     return sheet;
   }
