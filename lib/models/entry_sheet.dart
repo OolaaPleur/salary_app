@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import 'secret.dart';
 
@@ -90,6 +92,36 @@ class EntrySheet {
       nettoPieceSalary
     ];
     return salaryData;
+  }
+
+  Future<String?> getTableUrl(String filter) async {
+    var tableNumber = 0;
+    const _sheetsEndpoint =
+        'https://sheets.googleapis.com/v4/spreadsheets/1WyykcwK1iTrqwuXKJtUYs1KqIwznJDC3tmnqh3ftmc8?key=$API_KEY';
+    var url = Uri.parse(_sheetsEndpoint);
+    try {
+      final response = await http.get(url);
+      var jsonResponse =
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
+      if (filter == 'monthly') {
+        print(jsonResponse['sheets'][0]['charts'][0]['chartId']);
+        tableNumber = jsonResponse['sheets'][0]['charts'][0]['chartId'];
+        String tableUrl =
+            'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=$tableNumber&format=image&';
+        print(tableUrl);
+        return tableUrl;
+      } else {
+        //should return hourly table
+        print(jsonResponse['sheets'][0]['charts'][1]['chartId']);
+        tableNumber = jsonResponse['sheets'][0]['charts'][1]['chartId'];
+        String tableUrl =
+            'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtiXSYwaCWDjeBh2hqCIqjjVECKptGphKrZ6UoDPXBJ6zgpo_Lex2E715W7IaIRezV5W3I8J0Xe__f/pubchart?oid=$tableNumber&format=image&';
+        print(tableUrl);
+        return tableUrl;
+      }
+    } catch (error) {
+      throw (error);
+    }
   }
 
   Future<Worksheet?> getSheetName() async {
