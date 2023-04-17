@@ -17,6 +17,7 @@ class EntrySheet {
   final String treadAndNonLayerCount;
   final String hourCount;
   final String cutTreadCount;
+  final String processingAndGlue;
   final DateTime dateTime;
 
   EntrySheet(
@@ -30,27 +31,21 @@ class EntrySheet {
       this.treadAndLayerCount = '',
       this.treadAndNonLayerCount = '',
       this.hourCount = '',
-      this.cutTreadCount = ''});
+      this.cutTreadCount = '',
+      this.processingAndGlue = ''});
 
   Future<void> addEntry(EntrySheet entrySheet, BuildContext context) async {
     Worksheet? sheet = await getSheetName();
     String str = DateFormat('dd.MM.yyyy').format(dateTime).toString();
-    var g = await sheet!.cells.findByValue(str);
-    print(g);
     var cell = await sheet!.cells.findByValue(str).then((value) => value
         .toString()
         .split('at ')
         .last
         .substring(0, value.toString().split('at ').last.length - 1));
-    print(cell + 'fffffffffff');
-    var letter = cell.substring(0, cell.length - 2);
-    print(letter);
     var digit = cell.substring(1);
-    print(digit);
 
     final data = [
       hoursTotal.replaceAll('.', ','),
-      '',
       ruggedTreadCount,
       nonRuggedTreadCount,
       patchCount,
@@ -60,9 +55,10 @@ class EntrySheet {
       treadAndNonLayerCount,
       hourCount.replaceAll('.', ','),
       cutTreadCount,
+      processingAndGlue
     ];
     await sheet.values
-        .insertRow(int.parse(digit), data, fromColumn: 3)
+        .insertRow(int.parse(digit), data, fromColumn: 2)
         .then((value) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -82,10 +78,10 @@ class EntrySheet {
   Future<List<Cell>> fetchSalary() async {
     Worksheet? sheet = await getSheetName();
 
-    final bruttoHourlySalary = await sheet!.cells.cell(column: 3, row: 35);
-    final nettoHourlySalary = await sheet.cells.cell(column: 3, row: 37);
-    final bruttoPieceSalary = await sheet.cells.cell(column: 5, row: 36);
-    final nettoPieceSalary = await sheet.cells.cell(column: 5, row: 37);
+    final bruttoHourlySalary = await sheet!.cells.cell(column: 2, row: 36);
+    final nettoHourlySalary = await sheet.cells.cell(column: 2, row: 37);
+    final bruttoPieceSalary = await sheet.cells.cell(column: 3, row: 36);
+    final nettoPieceSalary = await sheet.cells.cell(column: 3, row: 37);
 
     List<Cell> salaryData = [
       bruttoHourlySalary,
@@ -104,7 +100,7 @@ class EntrySheet {
     var month = dateFormatMonth
         .format(dateTime); //get month to pick sheet which is needed
     var monthCapitalized =
-        month.capitalize(); //make month name start from capital letter
+        month.capitalize; //make month name start from capital letter
     DateFormat dateFormatYear = new DateFormat.y('ru');
     var year = dateFormatYear
         .format(dateTime); //get year to pick sheet which is needed

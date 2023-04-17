@@ -10,6 +10,7 @@
   "treadAndNonLayerCount": "Tread And Non-Layer Count",
   "hourCount": "Hour Count",
   "cutTreadCount": "Cut Tread Count",
+  "processingAndGlue" : "Processing and glue",
 
   "addData": "Add data",
   "table": "Table",

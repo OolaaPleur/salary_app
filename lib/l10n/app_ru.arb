@@ -10,6 +10,7 @@
   "treadAndNonLayerCount": "Протектор без прослойки",
   "hourCount": "Часовая сдельная",
   "cutTreadCount": "Кол-во резанных протекторов",
+  "processingAndGlue" : "Разработка и клей",
 
   "addData": "Ввести",
   "table": "Таблица",

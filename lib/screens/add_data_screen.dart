@@ -29,19 +29,32 @@ class _AddDataScreenState extends State<AddDataScreen> {
   var treadAndNonLayerCount;
   var hourCount;
   var cutTreadCount;
+  var processingAndGlue;
   List<Cell> cellForCurrentDay = [];
   List<Cell> cellForSalary = [];
 
-  late TextEditingController hoursTotalController = TextEditingController(text: '');
-  late TextEditingController ruggedTreadCountController = TextEditingController(text: '');
-  late TextEditingController nonRuggedTreadCountController = TextEditingController(text: '');
-  late TextEditingController patchCountController = TextEditingController(text: '');
-  late TextEditingController sideRepairCentimeterCountController = TextEditingController(text: '');
-  late TextEditingController packedTreadController = TextEditingController(text: '');
-  late TextEditingController treadAndLayerCountController = TextEditingController(text: '');
-  late TextEditingController treadAndNonLayerCountController = TextEditingController(text: '');
-  late TextEditingController hourCountController = TextEditingController(text: '');
-  late TextEditingController cutTreadCountController = TextEditingController(text: '');
+  late TextEditingController hoursTotalController =
+      TextEditingController(text: '');
+  late TextEditingController ruggedTreadCountController =
+      TextEditingController(text: '');
+  late TextEditingController nonRuggedTreadCountController =
+      TextEditingController(text: '');
+  late TextEditingController patchCountController =
+      TextEditingController(text: '');
+  late TextEditingController sideRepairCentimeterCountController =
+      TextEditingController(text: '');
+  late TextEditingController packedTreadController =
+      TextEditingController(text: '');
+  late TextEditingController treadAndLayerCountController =
+      TextEditingController(text: '');
+  late TextEditingController treadAndNonLayerCountController =
+      TextEditingController(text: '');
+  late TextEditingController hourCountController =
+      TextEditingController(text: '');
+  late TextEditingController cutTreadCountController =
+      TextEditingController(text: '');
+  late TextEditingController processingAndGlueController =
+      TextEditingController(text: '');
   late String overallForOneDay;
   late String hourlyPay = "";
   late String treadAndNonLayerDayPay = "";
@@ -70,23 +83,30 @@ class _AddDataScreenState extends State<AddDataScreen> {
     cellForCurrentDay = await entrySheet.fetchWorkSheet(dateTime.day + 1);
     cellForSalary = await entrySheet.fetchSalary();
     print('${dateTime.day} stuck in loop');
-    hoursTotalController = TextEditingController(text: cellForCurrentDay
-        .elementAt(2)
-        .value
-        .replaceAll('.', ','));
+    hoursTotalController = TextEditingController(
+        text: cellForCurrentDay.elementAt(1).value.replaceAll('.', ','));
 
-    treadAndNonLayerCountController = TextEditingController(text: cellForCurrentDay.elementAt(10).value);
-    ruggedTreadCountController = TextEditingController(text: cellForCurrentDay.elementAt(4).value);
-    nonRuggedTreadCountController = TextEditingController(text: cellForCurrentDay.elementAt(5).value);
-    patchCountController = TextEditingController(text: cellForCurrentDay.elementAt(6).value);
-    sideRepairCentimeterCountController = TextEditingController(text: cellForCurrentDay.elementAt(7).value);
-    packedTreadController = TextEditingController(text: cellForCurrentDay.elementAt(8).value);
-    treadAndLayerCountController = TextEditingController(text: cellForCurrentDay.elementAt(9).value);
-    hourCountController = TextEditingController(text: cellForCurrentDay
-        .elementAt(11)
-        .value
-        .replaceAll('.', ','));
-    cutTreadCountController = TextEditingController(text: cellForCurrentDay.elementAt(12).value);
+    treadAndNonLayerCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(8).value);
+    ruggedTreadCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(2).value);
+    nonRuggedTreadCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(3).value);
+    patchCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(4).value);
+    sideRepairCentimeterCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(5).value);
+    packedTreadController =
+        TextEditingController(text: cellForCurrentDay.elementAt(6).value);
+    treadAndLayerCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(7).value);
+    hourCountController = TextEditingController(
+        text: cellForCurrentDay.elementAt(9).value.replaceAll('.', ','));
+    cutTreadCountController =
+        TextEditingController(text: cellForCurrentDay.elementAt(10).value);
+    processingAndGlue =
+        TextEditingController(text: cellForCurrentDay.elementAt(11).value);
+
     overallForOneDay = cellForCurrentDay.elementAt(21).value;
     hourlyPay = cellForCurrentDay.elementAt(31).value;
     treadAndNonLayerDayPay = cellForCurrentDay.elementAt(29).value;
@@ -113,18 +133,18 @@ class _AddDataScreenState extends State<AddDataScreen> {
       dateTime = DateTime.now();
     }
     EntrySheet entrySheet = new EntrySheet(
-      dateTime: dateTime,
-      hoursTotal: hoursTotal,
-      ruggedTreadCount: ruggedTreadCount,
-      nonRuggedTreadCount: nonRuggedTreadCount,
-      patchCount: patchCount,
-      sideRepairCentimeterCount: sideRepairCentimeterCount,
-      packedTread: packedTread,
-      treadAndLayerCount: treadAndLayerCount,
-      treadAndNonLayerCount: treadAndNonLayerCount,
-      hourCount: hourCount,
-      cutTreadCount: cutTreadCount,
-    );
+        dateTime: dateTime,
+        hoursTotal: hoursTotal,
+        ruggedTreadCount: ruggedTreadCount,
+        nonRuggedTreadCount: nonRuggedTreadCount,
+        patchCount: patchCount,
+        sideRepairCentimeterCount: sideRepairCentimeterCount,
+        packedTread: packedTread,
+        treadAndLayerCount: treadAndLayerCount,
+        treadAndNonLayerCount: treadAndNonLayerCount,
+        hourCount: hourCount,
+        cutTreadCount: cutTreadCount,
+        processingAndGlue: processingAndGlue);
     print(ruggedTreadCount);
     try {
       entrySheet.addEntry(entrySheet, context);
@@ -218,8 +238,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          overallForOneDay == '0' ||
-                              overallForOneDay.isEmpty
+                          overallForOneDay == '0' || overallForOneDay.isEmpty
                               ? SizedBox.shrink()
                               // next - parse to double value at
                               // cellForCurrentDay list, then leave 2 digits
@@ -227,8 +246,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               // comma
                               : Text("€" +
                                   NumberFormat()
-                                      .parse(
-                                      overallForOneDay)
+                                      .parse(overallForOneDay)
                                       .toStringAsFixed(2)
                                       .replaceAll('.', ',') +
                                   ' - выработка за день'),
@@ -239,7 +257,10 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               // after dot, make string and replace dot with
                               // comma
                               : Text("€" +
-                                  NumberFormat().parse(hourlyPay).toStringAsFixed(2).replaceAll('.', ',') +
+                                  NumberFormat()
+                                      .parse(hourlyPay)
+                                      .toStringAsFixed(2)
+                                      .replaceAll('.', ',') +
                                   ' в час')
                         ],
                       )
@@ -265,10 +286,6 @@ class _AddDataScreenState extends State<AddDataScreen> {
                         enabled: _enabled,
                         controller: treadAndNonLayerCountController,
                         decoration: InputDecoration(
-                            filled: true,
-                            fillColor: _enabled
-                                ? Colors.lightGreen
-                                : Color.fromRGBO(252, 252, 252, 1),
                             labelText: AppLocalizations.of(context)!
                                 .treadAndNonLayerCount),
                         textInputAction: TextInputAction.next,
@@ -282,8 +299,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               treadAndNonLayerDayPay == '0'
                                   ? SizedBox.shrink()
                                   : Container(
-                                      child: Text("   €" +
-                                          treadAndNonLayerDayPay),
+                                      child:
+                                          Text("   €" + treadAndNonLayerDayPay),
                                     )
                             ],
                           )
@@ -366,6 +383,15 @@ class _AddDataScreenState extends State<AddDataScreen> {
                   onSaved: (value) => cutTreadCount = value,
                   keyboardType: TextInputType.number,
                 ),
+                TextFormField(
+                  enabled: _enabled,
+                  controller: processingAndGlueController,
+                  decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.processingAndGlue),
+                  textInputAction: TextInputAction.none,
+                  onSaved: (value) => processingAndGlue = value,
+                  keyboardType: TextInputType.number,
+                ),
                 Container(
                   padding: EdgeInsets.all(8),
                   alignment: Alignment.topLeft,
@@ -399,9 +425,9 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 Container(
                   padding: EdgeInsets.all(8),
                   alignment: Alignment.topLeft,
-                  child: _enabled && double.tryParse(bruttoHourlySalary) != null
+                  child: _enabled && double.tryParse(nettoPieceSalary) != null
                       ? Text("Зарплата нетто(сдельная): " +
-                          double.parse(bruttoHourlySalary)
+                          double.parse(nettoPieceSalary)
                               .toStringAsFixed(2)
                               .replaceAll('.', ','))
                       : SizedBox.shrink(),
