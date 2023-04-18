@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/updateChart.dart';
+import '../models/update_chart.dart';
 
 class ShowHourlyPayMonthTableScreen extends StatefulWidget {
   const ShowHourlyPayMonthTableScreen({Key? key}) : super(key: key);

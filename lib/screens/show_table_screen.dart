@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/updateChart.dart';
+import '../models/update_chart.dart';
 
 class ShowTableScreen extends StatefulWidget {
   static const routeName = '/show-table-screen';
